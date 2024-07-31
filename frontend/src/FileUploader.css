@@ -1,0 +1,46 @@
+/* Add this to your CSS file */
+.btn-check {
+    width: 1.25rem;
+    /* Adjust the width */
+    height: 1.25rem;
+    /* Adjust the height */
+}
+
+.btn-check:checked+.btn-outline-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-outline-primary {
+    padding: 0.25rem 0.5rem;
+    /* Adjust padding for smaller buttons */
+    font-size: 0.875rem;
+    /* Smaller font size */
+}
+
+
+.form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+@media (max-width: 767px) {
+    .row.align-items-center>.col-12 {
+        text-align: left;
+    }
+
+    .btn-group {
+        display: flex;
+        justify-content: flex-start;
+        margin-top: 0.5rem;
+    }
+
+    .d-flex.align-items-center {
+        justify-content: flex-start;
+        margin-top: 0.5rem;
+    }
+}
+
+.optionsContainer {
+    justify-content: center;
+}

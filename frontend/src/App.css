@@ -1,33 +1,41 @@
-.App {
-  text-align: center;
+/* Custom styles for the Quizzer application */
+
+/* Body styles */
+body {
+  background-color: #f8f9fa;
+  /* Light background color */
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* Card styles */
+.card {
+  border: 1px solid #ced4da;
+  /* Light border for the card */
+  border-radius: 0.5rem;
+  /* Rounded corners */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  /* Subtle shadow for depth */
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+/* Card title styles */
+.card-title {
+  font-size: 2rem;
+  /* Larger font size for the title */
+  color: #343a40;
+  /* Darker text color */
 }
 
-.App-link {
-  color: #61dafb;
-}
-
+/* File input styles */
 input[type="file"] {
-  margin: 20px 0;
+  border: 1px solid #ced4da;
+  /* Light border for file input */
+  border-radius: 0.25rem;
+  /* Rounded corners */
 }
 
-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .card {
+    margin: 10px;
+    /* Margin for smaller screens */
+  }
 }
