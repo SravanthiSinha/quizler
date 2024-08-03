@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import FileUploader from './FileUploader';
 import QuizDisplay from './QuizDisplay';
-import sampleQuestions from './sampleQuestions.json';
+import axios from 'axios';
 
 interface Question {
   qno: number;
@@ -19,24 +19,34 @@ const App: React.FC = () => {
   const [difficulty, setDifficulty] = useState<string>('easy');
   const [questionCount, setQuestionCount] = useState<number>(10);
   const [questions, setQuestions] = useState<Question[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    // Simulate fetching data from an API
-    setQuestions(sampleQuestions);
-  }, []);
-
-  const handleFileUpload = (uploadedFile: File, selectedDifficulty: string, selectedQuestionCount: number) => {
+  const handleFileUpload = async (uploadedFile: File, selectedDifficulty: string, selectedQuestionCount: number) => {
     setFile(uploadedFile);
     setDifficulty(selectedDifficulty);
     setQuestionCount(selectedQuestionCount);
-    // Simulate fetching questions based on the uploaded file and selected options
-    // In a real application, you would make an API call here
-    const fetchedQuestions = sampleQuestions
-      .slice(0, selectedQuestionCount)
-      .map(q => ({ ...q, difficulty: selectedDifficulty }));
+    setLoading(true);
+    setError(null);
 
-    // Explicitly cast the fetchedQuestions to Question[]
-    setQuestions(fetchedQuestions as Question[]);
+    const formData = new FormData();
+    formData.append('file', uploadedFile);
+    formData.append('difficulty', selectedDifficulty);
+    formData.append('num_questions', selectedQuestionCount.toString());
+
+    try {
+      const response = await axios.post('http://localhost:5000/api/generate_questions', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      setQuestions(response.data);
+    } catch (err) {
+      setError('Failed to generate questions. Please try again.');
+      console.error('Error generating questions:', err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -58,6 +68,22 @@ const App: React.FC = () => {
               </div>
             </div>
           </div>
+
+          {loading && (
+            <div className="row justify-content-center mt-4">
+              <div className="col-md-8">
+                <div className="alert alert-info">Generating questions...</div>
+              </div>
+            </div>
+          )}
+
+          {error && (
+            <div className="row justify-content-center mt-4">
+              <div className="col-md-8">
+                <div className="alert alert-danger">{error}</div>
+              </div>
+            </div>
+          )}
 
           {file && questions.length > 0 && (
             <div className="row justify-content-center mt-4">
