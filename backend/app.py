@@ -79,7 +79,7 @@ def generate_questions():
             prompt = f"""Based on the following text, generate {num_questions} multiple-choice questions with {difficulty} difficulty. 
             Your response must be a valid JSON array of objects, with no additional text before or after. Each object should have the following structure:
             {{
-                "quo": <question number>,
+                "qno": <question number>,
                 "question": "<the question>",
                 "option1": "<first option>",
                 "option2": "<second option>",
