@@ -7,11 +7,12 @@ import os
 from werkzeug.utils import secure_filename
 import PyPDF2
 import docx
+from pptx import Presentation
 
 app = Flask(__name__)
 CORS(app)
 UPLOAD_FOLDER = 'uploads'
-ALLOWED_EXTENSIONS = {'txt', 'pdf', 'docx'}
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'docx', 'ppt', 'pptx'}
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -22,20 +23,33 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 def hello():
     return jsonify({"message": "Hello, World!"})
 
-
-
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def extract_text_from_pdf(file_path):
+    text = ''
+    with open(file_path, 'rb') as file:
+        reader = PyPDF2.PdfReader(file)
+        for page in reader.pages:
+            text += page.extract_text()
+    return text
+
+def extract_text_from_ppt(file_path):
+    text = ''
+    presentation = Presentation(file_path)
+    for slide in presentation.slides:
+        for shape in slide.shapes:
+            if hasattr(shape, "text"):
+                text += shape.text + '\n'
+    return text
 
 def extract_text_from_file(file_path):
     _, file_extension = os.path.splitext(file_path)
     
     if file_extension == '.pdf':
-        with open(file_path, 'rb') as file:
-            reader = PyPDF2.PdfReader(file)
-            text = ''
-            for page in reader.pages:
-                text += page.extract_text()
+        return extract_text_from_pdf(file_path)
+    elif file_extension in ['.ppt', '.pptx']:
+        return extract_text_from_ppt(file_path)
     elif file_extension == '.docx':
         doc = docx.Document(file_path)
         text = '\n'.join([paragraph.text for paragraph in doc.paragraphs])
