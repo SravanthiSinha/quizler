@@ -89,9 +89,9 @@ input:checked+.slider:before {
     text-align: center;
 }
 
-.reset-btn {
+.reset-btn,
+.show-btn {
     display: block;
-    width: 100%;
     margin-top: 10px;
     padding: 10px 15px;
     font-size: 16px;
@@ -105,6 +105,27 @@ input:checked+.slider:before {
     border: none;
 }
 
-.resert-btn-secondary:hover {
+.reset-btn-secondary:hover {
     background-color: #5a6268;
+}
+
+.show-btn-primary {
+    background-color: #007bff;
+    color: white;
+    border: none;
+}
+
+.show-btn-primary:hover {
+    background-color: #0056b3;
+    /* Darker blue on hover */
+}
+
+.bottom-controls {
+    display: flex;
+    justify-content: center;
+    /* Center the buttons horizontally */
+    gap: 10px;
+    /* Space between buttons */
+    margin-top: 20px;
+    /* Space above the button row */
 }
