@@ -52,8 +52,9 @@ const App: React.FC = () => {
   return (
     <div className="container-fluid d-flex flex-column min-vh-100">
       <header className="py-3 bg-light">
-        <div className="container">
-          <h1 className="text-center">Quizler</h1>
+        <div className="container header-content">
+          <img src={`${process.env.PUBLIC_URL}/logo.svg`} alt="Logo" className="logo" />
+          <h2 className="text-center">Quizler</h2>
         </div>
       </header>
 
