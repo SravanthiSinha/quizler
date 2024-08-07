@@ -23,6 +23,10 @@ const App: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   const handleFileUpload = async (uploadedFile: File, selectedDifficulty: string, selectedQuestionCount: number) => {
+    // Clear previous questions and error messages
+    setQuestions([]);
+    setError(null);
+
     setFile(uploadedFile);
     setDifficulty(selectedDifficulty);
     setQuestionCount(selectedQuestionCount);
@@ -73,7 +77,7 @@ const App: React.FC = () => {
           {loading && (
             <div className="row justify-content-center mt-4">
               <div className="col-md-8">
-                <div className="alert alert-info">Generating questions...</div>
+                <div className="alert alert-info">Generating...</div>
               </div>
             </div>
           )}
@@ -89,12 +93,12 @@ const App: React.FC = () => {
           {file && questions.length > 0 && (
             <div className="row justify-content-center mt-4">
               <div className="col-md-8">
-                <div className="alert alert-success">
+                {/* <div className="alert alert-success">
                   Quiz Created!! <br />
                   File Used: {file.name},
                   Difficulty: {difficulty},
                   Number of Questions: {questionCount}
-                </div>
+                </div> */}
                 <QuizDisplay questions={questions} />
               </div>
             </div>
