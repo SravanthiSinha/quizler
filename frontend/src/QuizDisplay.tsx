@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './QuizDisplay.css'; // Import the CSS file
+import './QuizDisplay.css';
 
 interface Question {
     qno: number;
@@ -21,26 +21,26 @@ const QuizDisplay: React.FC<QuizDisplayProps> = ({ questions }) => {
     const [keepScore, setKeepScore] = useState(true);
     const [score, setScore] = useState(0);
 
-    const handleOptionClick = (questionId: number, selectedOption: string) => {
+    const handleOptionChange = (questionId: number, selectedOption: string) => {
+        setSelectedAnswers(prev => ({ ...prev, [questionId]: selectedOption }));
+    };
+
+    const submitQuiz = () => {
         if (showAnswers) return;
 
-        const question = questions.find(q => q.qno === questionId);
-        if (!question) return;
-
-        const isCorrect = selectedOption === question.answer;
-        const wasCorrect = selectedAnswers[questionId] === question.answer;
-
-        setSelectedAnswers(prev => ({ ...prev, [questionId]: selectedOption }));
-
-        setScore(prevScore => {
-            if (isCorrect && !wasCorrect) return prevScore + 1;
-            if (!isCorrect && wasCorrect) return prevScore - 1;
-            return prevScore;
+        let newScore = 0;
+        questions.forEach(question => {
+            if (selectedAnswers[question.qno] === question.answer) {
+                newScore++;
+            }
         });
+
+        setScore(newScore);
+        setShowAnswers(true);
     };
 
     const toggleKeepScore = () => setKeepScore(prev => !prev);
-    const showAllAnswers = () => setShowAnswers(true);
+    
     const resetQuiz = () => {
         setSelectedAnswers({});
         setShowAnswers(false);
@@ -72,35 +72,53 @@ const QuizDisplay: React.FC<QuizDisplayProps> = ({ questions }) => {
                                 {[option1, option2, option3, option4].map((option, index) => {
                                     const isSelected = selectedAnswers[qno] === option;
                                     const isCorrect = option === answer;
-                                    const optionClass = isSelected ? (isCorrect ? 'bg-success text-white' : 'bg-danger text-white') : '';
+                                    let optionClass = "list-group-item";
+                                    if (showAnswers) {
+                                        if (isCorrect) {
+                                            optionClass += " correct-answer";
+                                        } else if (isSelected && !isCorrect) {
+                                            optionClass += " incorrect-answer";
+                                        }
+                                    }
 
                                     return (
-                                        <li key={index} className={`list-group-item ${optionClass}`} onClick={() => handleOptionClick(qno, option)} style={{ cursor: 'pointer' }}>
-                                            <span className="option-text">{option}</span>
+                                        <li key={index} className={optionClass}>
+                                            <label className="d-flex align-items-center">
+                                                <input
+                                                    type="radio"
+                                                    name={`question-${qno}`}
+                                                    value={option}
+                                                    checked={isSelected}
+                                                    onChange={() => handleOptionChange(qno, option)}
+                                                    disabled={showAnswers}
+                                                    className="me-2"
+                                                />
+                                                <span>{option}</span>
+                                                {showAnswers && isCorrect && (
+                                                    <span className="ms-2 text-success">✓</span>
+                                                )}
+                                            </label>
                                         </li>
                                     );
                                 })}
                             </ul>
-                            {showAnswers && (
-                                <p className="mt-3 text-muted">
-                                    <strong>Correct Answer:</strong> {answer}
-                                </p>
-                            )}
                         </div>
                     </div>
                 ))}
             </div>
-            {keepScore && (
+            {keepScore && showAnswers && (
                 <div className="score-display">
                     <strong>You Scored {score} / {questions.length} points</strong>
                 </div>
             )}
             <div className="bottom-controls">
+                {!showAnswers && (
+                    <button className="btn btn-success" onClick={submitQuiz}>
+                        Submit Quiz
+                    </button>
+                )}
                 <button className="btn btn-secondary" onClick={resetQuiz}>
                     Reset Quiz
-                </button>
-                <button className="btn btn-primary" onClick={showAllAnswers}>
-                    Show Answers
                 </button>
             </div>
         </div>
