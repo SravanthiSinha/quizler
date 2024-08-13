@@ -53,3 +53,10 @@ Quizler is an innovative web application that leverages AI to automatically gene
 3. Select the desired difficulty level and number of questions.
 4. Click "Create Quiz" to generate your custom quiz.
 5. View and interact with the generated questions.
+
+## Demo
+
+
+
+https://github.com/user-attachments/assets/3cfdf944-c151-47b7-a456-39d2e6035ad5
+
