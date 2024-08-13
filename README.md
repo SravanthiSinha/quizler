@@ -10,6 +10,8 @@ Quizler is an innovative web application that leverages AI to automatically gene
 - AI-generated multiple-choice questions
 - Dockerized application for easy deployment
 
+(PS: This is still in basic version, more features incoming :) )
+
 ## Tech Stack
 
 - Frontend: React with TypeScript
@@ -60,3 +62,10 @@ Quizler is an innovative web application that leverages AI to automatically gene
 
 https://github.com/user-attachments/assets/3cfdf944-c151-47b7-a456-39d2e6035ad5
 
+
+
+## TODO
+
+* save a quiz
+* view past quizzes
+* view uploaded files and recreate a quiz with new questions 
