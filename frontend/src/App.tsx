@@ -65,7 +65,7 @@ const App: React.FC = () => {
       <main className="flex-grow-1">
         <div className="container my-2">
           <div className="row justify-content-center">
-            <div className="col-md-8">
+            <div className="col-md-10">
               <div className="card">
                 <div className="card-body">
                   <FileUploader onFileUpload={handleFileUpload} />
@@ -76,7 +76,7 @@ const App: React.FC = () => {
 
           {loading && (
             <div className="row justify-content-center mt-4">
-              <div className="col-md-8">
+              <div className="col-md-10">
                 <div className="alert alert-info">Generating...</div>
               </div>
             </div>
@@ -84,7 +84,7 @@ const App: React.FC = () => {
 
           {error && (
             <div className="row justify-content-center mt-4">
-              <div className="col-md-8">
+              <div className="col-md-10">
                 <div className="alert alert-danger">{error}</div>
               </div>
             </div>
@@ -92,7 +92,7 @@ const App: React.FC = () => {
 
           {file && questions.length > 0 && (
             <div className="row justify-content-center mt-4">
-              <div className="col-md-8">
+              <div className="col-md-10">
                 {/* <div className="alert alert-success">
                   Quiz Created!! <br />
                   File Used: {file.name},
